@@ -3,27 +3,30 @@
  ** ALL RIGHTS RESERVED, DON'T USE OR PUBLISH THIS FILE WITHOUT AUTORIZATION
  *************************************************************************************************/
 
-/** @file main.cpp
- ** @brief Definicion de la funcion principal del programa
+/** @file termometro.cpp
+ ** @brief Implementacion de la funcion termometro para medir la temperatura corporal en °C
  **
  **| REV | YYYY.MM.DD | Autor           | Descripción de los cambios                              |
  **|-----|------------|-----------------|---------------------------------------------------------|
  **|   1 | 2024.07.15 | Jorge Vasquez   | Version inicial del archivo                             |
  **
- ** @addtogroup aplicacion
+ ** @addtogroup termometro
  ** @{ */
 
 /* === Inclusiones de cabeceras ================================================================ */
 
-#include "main.h"
-#include "interfaz.h"
-#include "oximetro.h"
+#include <Adafruit_MLX90614.h>
+#include <Wire.h>
+#include <Adafruit_SPIDevice.h>
 #include "termometro.h"
 
 /* === Definicion y Macros ===================================================================== */
 
 /* == Declaraciones de tipos de datos internos ================================================= */
-int medicion = 0;
+Adafruit_MLX90614 mlx = Adafruit_MLX90614();
+
+int alarma = 36;     //!< valor de temperatura de alarma
+int calibracion = 3; //!< factor de calibracion
 /* === Definiciones de variables internas ====================================================== */
 
 /* === Definiciones de variables externas ====================================================== */
@@ -34,26 +37,35 @@ int medicion = 0;
 
 /* === Definiciones de funciones externas ====================================================== */
 
-void setup() {
-    configuracion_interfaz();
-    configuracion_oximetro();
-    configuracion_termometro();
+void configuracion_termometro() {
+    Serial.begin(115200);
+    while (!Serial)
+        ;
+
+    if (!mlx.begin()) {
+        Serial.println("Error ");
+        while (1)
+            ;
+    };
+
+    // Serial.print("Emisividad = "); Serial.println(mlx.readEmissivity());
+    // Serial.println("================================================");
 }
 
-void loop() {
-    int medicion = interfaz_usuario();
-    switch (medicion) {
-    case 1:
-        calcular_bpm_spo2();
-        break;
+void calcular_temperatura() {
 
-    case 2:
-        calcular_temperatura();
-        break;
-
-    default:
-        break;
+    Serial.print("*C\tTemperatura = ");
+    Serial.print(mlx.readObjectTempC() + calibracion);
+    Serial.println("*C");
+    Serial.println();
+    if ((mlx.readObjectTempC() + calibracion) > alarma) // si supera el valor definido como alarma
+    {
+        Serial.println("**** Alerta *****");
+        delay(100);
+    } else {
+        Serial.println("...................");
     }
+    delay(1500);
 }
 
 /* === Ciere de documentacion ================================================================== */

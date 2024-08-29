@@ -3,21 +3,21 @@
  ** ALL RIGHTS RESERVED, DON'T USE OR PUBLISH THIS FILE WITHOUT AUTORIZATION
  *************************************************************************************************/
 
-#ifndef MAIN_H   /*! @cond    */
-#define MAIN_H   /*! @endcond */
+#ifndef OXIMETRO_H /*! @cond    */
+#define OXIMETRO_H /*! @endcond */
 
-/** @file main.h
- ** @brief Definicion de la funcion principal del programa
+/** @file oximetro.h
+ ** @brief Declaracion de la funcion oximetro para medir el bpm y spo2
  **
  **| REV | YYYY.MM.DD | Autor           | Descripción de los cambios                              |
  **|-----|------------|-----------------|---------------------------------------------------------|
  **|   1 | 2024.07.15 | Jorge Vasquez   | Version inicial del archivo                             |
  **
- ** @addtogroup aplicacion
+ ** @addtogroup oximetro
  ** @{ */
 
 /* === Inclusiones de archivos externos ======================================================== */
-
+#include <Arduino.h>
 /* === Cabecera C++ ============================================================================ */
 
 #ifdef __cplusplus
@@ -33,11 +33,18 @@ extern "C" {
 /* === Declaraciones de funciones externas ===================================================== */
 
 /**
- * @brief Funcion principal del sistema, se ejecuta al iniciar el programa
- * 
+ * @brief Funcion de configuracion del oximetro
+ *
  * @return void
  */
-void setup();
+void configuracion_oximetro();
+
+/**
+ * @brief Funcion para calcular el bpm y spo2
+ *
+ * @return void
+ */
+void calcular_bpm_spo2();
 
 /* === Ciere de documentacion ================================================================== */
 #ifdef __cplusplus
@@ -46,4 +53,4 @@ void setup();
 
 /** @} Final de la definición del modulo para doxygen */
 
-#endif   /* MAIN_H */
+#endif /* OXIMETRO_H */

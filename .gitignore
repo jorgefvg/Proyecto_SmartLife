@@ -105,4 +105,4 @@ Temporary Items
 
 # Generated and compiled root folder
 .pio
-doc
+build

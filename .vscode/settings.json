@@ -9,5 +9,8 @@
         "editor.suggest.insertMode": "replace",
         "editor.semanticHighlighting.enabled": true
     },
-    "idf.port": "/dev/ttyUSB0"
+    "files.associations": {
+        "istream": "cpp",
+        "ostream": "cpp"
+    },
 }
