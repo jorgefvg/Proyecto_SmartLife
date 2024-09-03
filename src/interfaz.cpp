@@ -10,7 +10,7 @@
  **|-----|------------|-----------------|---------------------------------------------------------|
  **|   1 | 2024.07.15 | Jorge Vasquez   | Version inicial del archivo                             |
  **
- ** @addtogroup interfaz de usuario
+ ** @addtogroup interfaz
  ** @{ */
 
 /* === Inclusiones de cabeceras ================================================================ */

@@ -13,7 +13,7 @@
  **|-----|------------|-----------------|---------------------------------------------------------|
  **|   1 | 2024.07.15 | Jorge Vasquez   | Version inicial del archivo                             |
  **
- ** @addtogroup interfaz de usuario
+ ** @addtogroup interfaz
  ** @{ */
 
 /* === Inclusiones de archivos externos ======================================================== */
@@ -42,7 +42,7 @@ void configuracion_interfaz();
 /**
  * @brief Funcion para manejo de interfaz de usuario
  *
- * @return int Devuelve un nemero entero para indicar que medicion debe realizarce
+ * @return int Numero entero para indicar que medicion debe realizarce
  */
 int interfaz_usuario();
 
