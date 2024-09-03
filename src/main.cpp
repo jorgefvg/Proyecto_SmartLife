@@ -41,7 +41,7 @@ void setup() {
 }
 
 void loop() {
-    int medicion = interfaz_usuario();
+    medicion = interfaz_usuario();
     switch (medicion) {
     case 1:
         calcular_bpm_spo2();

@@ -99,7 +99,6 @@ void configuracion_oximetro() {
 }
 
 void calcular_bpm_spo2() {
-
     // Lectura de cada led del sensor MAX30102
     uint32_t red_v = Sensor.getIR(); // Leer la señal del led rojo
     uint32_t ir_v = Sensor.getRed(); // Leer la señal del led infrarojo
