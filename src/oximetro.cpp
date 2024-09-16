@@ -56,6 +56,8 @@ movingAvg avgRed_v(30);
 // el promedio de 5 latidos)
 movingAvg avgHR(3);
 movingAvg avgSPO2(5);
+
+double valor = 0;
 /* === Definiciones de variables internas ====================================================== */
 
 /* === Definiciones de variables externas ====================================================== */
@@ -98,7 +100,7 @@ void configuracion_oximetro() {
     avgSPO2.begin();
 }
 
-void calcular_bpm_spo2() {
+void calcular_bpm_spo2(double * bpm, double * spo) {
     // Lectura de cada led del sensor MAX30102
     uint32_t red_v = Sensor.getIR(); // Leer la señal del led rojo
     uint32_t ir_v = Sensor.getRed(); // Leer la señal del led infrarojo
@@ -170,6 +172,8 @@ void calcular_bpm_spo2() {
             Serial.print("Saturación de oxígeno =");
             Serial.print(spo2);
             Serial.println("%");
+            *bpm = hr;
+            *spo = spo2;
         }
     }
 

@@ -44,7 +44,7 @@ void configuracion_oximetro();
  *
  * @return void
  */
-void calcular_bpm_spo2();
+void calcular_bpm_spo2(double * bpm, double * spo);
 
 /* === Ciere de documentacion ================================================================== */
 #ifdef __cplusplus
