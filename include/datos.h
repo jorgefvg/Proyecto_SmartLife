@@ -3,21 +3,23 @@
  ** ALL RIGHTS RESERVED, DON'T USE OR PUBLISH THIS FILE WITHOUT AUTORIZATION
  *************************************************************************************************/
 
-#ifndef PANTALLA_H /*! @cond    */
-#define PANTALLA_H /*! @endcond */
+#ifndef DATOS_H /*! @cond    */
+#define DATOS_H /*! @endcond */
 
-/** @file pantalla.h
- ** @brief Declaracion de la funcion interfaz de pantalla
+/** @file datos.h
+ ** @brief Declaracion de la funcion para el envio de datos
  **
  **| REV | YYYY.MM.DD | Autor           | Descripción de los cambios                              |
  **|-----|------------|-----------------|---------------------------------------------------------|
- **|   1 | 2024.07.31 | Jorge Vasquez   | Version inicial del archivo                             |
+ **|   1 | 2024.08.09 | Jorge Vasquez   | Version inicial del archivo                             |
  **
- ** @addtogroup interfaz
+ ** @addtogroup datos
  ** @{ */
 
 /* === Inclusiones de archivos externos ======================================================== */
 #include <Arduino.h>
+#include "WiFi.h"
+#include <HTTPClient.h>
 /* === Cabecera C++ ============================================================================ */
 
 #ifdef __cplusplus
@@ -33,53 +35,39 @@ extern "C" {
 /* === Declaraciones de funciones externas ===================================================== */
 
 /**
- * @brief Funcion de configuracion de interfaz de pantalla
+ * @brief Funcion para manejo del envio de datos
  *
  * @return void
  */
-void configuracion_pantalla();
+void configuracion_wifi();
 
 /**
- * @brief Funcion para manejo del menu principal
+ * @brief Funcion para el envio de datos del oximetro
+ *
+ * @param  bpm   dato de ritmo cardiaco
+ * @param  spo   dato de saturacion de oxigeno
  *
  * @return void
  */
-void menu_principal();
+void wifi_oximetro(double bpm, double spo);
 
 /**
- * @brief Funcion para manejo de la edad del usuario
+ * @brief Funcion para el envio de datos del termometro
+ *
+ * @param  temp   dato de temperatura
  *
  * @return void
  */
-void menu_edad();
+void wifi_termometro(double temp);
 
 /**
- * @brief Funcion para manejo del menu de oximetro
+ * @brief Funcion para el envio de datos del nivel de estres
  *
- * @param  bpm   valor de ritmo cardiaco
- * @param  spo   valor de saturacion de oxigeno
- *
- * @return void
- */
-void menu_oximetro(double bpm, double spo);
-
-/**
- * @brief Funcion para manejo del menu del termometro
- *
- * @param  temp   valor de temperatura
+ * @param  estres   dato de estres
  *
  * @return void
  */
-void menu_termometro(double temp);
-
-/**
- * @brief Funcion para manejo del menu de estres
- *
- * @param  estres   valor de estres
- *
- * @return void
- */
-void menu_estres(int estres);
+void wifi_estres(int estres);
 
 /* === Ciere de documentacion ================================================================== */
 #ifdef __cplusplus
@@ -88,4 +76,4 @@ void menu_estres(int estres);
 
 /** @} Final de la definición del modulo para doxygen */
 
-#endif /* PANTALLA_H */
+#endif /* DATOS_H */

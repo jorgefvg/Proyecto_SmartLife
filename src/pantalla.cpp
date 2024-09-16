@@ -24,7 +24,9 @@
 #define RESET_OLED -1
 Adafruit_SSD1306 display(ANCHO, ALTO, &Wire, RESET_OLED); // Objeto de la clase
 /* == Declaraciones de tipos de datos internos ================================================= */
-
+int frecuencia_cardiaca = 0;
+int saturacion_oxigeno = 0;
+int temperatura_corporal = 0;
 /* === Definiciones de variables internas ====================================================== */
 
 /* === Definiciones de variables externas ====================================================== */
@@ -78,6 +80,9 @@ void menu_edad() {
 }
 
 void menu_oximetro(double bpm, double spo) {
+    frecuencia_cardiaca = (int)bpm;
+    saturacion_oxigeno = (int)spo;
+
     display.clearDisplay(); // Limpiar buffer (pantalla)
     display.setTextSize(1);
     display.setTextColor(WHITE);
@@ -87,7 +92,7 @@ void menu_oximetro(double bpm, double spo) {
     display.setRotation(0);
     display.setTextSize(3);
     display.setCursor(20, 5);
-    display.println(bpm, 0);
+    display.println(frecuencia_cardiaca, 0);
     display.setCursor(88, 5);
     display.setTextSize(2);
     display.print("bpm");
@@ -100,7 +105,7 @@ void menu_oximetro(double bpm, double spo) {
     display.setTextSize(3);
     display.setRotation(0);
     display.setCursor(20, 35);
-    display.println(spo, 0);
+    display.println(saturacion_oxigeno, 0);
     display.setCursor(112, 35);
     display.setTextSize(2);
     display.print("%");
@@ -108,6 +113,8 @@ void menu_oximetro(double bpm, double spo) {
 }
 
 void menu_termometro(double temp) {
+    temperatura_corporal = (int)temp;
+
     display.clearDisplay(); // Limpiar buffer (pantalla)
     display.setTextSize(1);
     display.setTextColor(WHITE);
@@ -117,7 +124,7 @@ void menu_termometro(double temp) {
     display.setRotation(0);
     display.setTextSize(3);
     display.setCursor(20, 5);
-    display.println(temp, 0);
+    display.println(temperatura_corporal, 0);
     display.setCursor(88, 5);
     display.setTextSize(2);
     display.print("*C");

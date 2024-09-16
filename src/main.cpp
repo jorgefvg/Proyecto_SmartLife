@@ -18,6 +18,7 @@
 #include "oximetro.h"
 #include "termometro.h"
 #include "pantalla.h"
+#include "datos.h"
 #include <math.h>
 
 /* === Definicion y Macros ===================================================================== */
@@ -43,6 +44,7 @@ double promedio_spo = 0;
 
 const int wakeupPin = 25;        // GPIO 25 para activación externa
 RTC_DATA_ATTR int bootCount = 0; // Número de reinicios
+
 /* === Definiciones de variables internas ====================================================== */
 
 /* === Definiciones de variables externas ====================================================== */
@@ -60,6 +62,8 @@ void setup() {
     Serial.println("Número de arranque: " + String(bootCount)); // Imprime el número de arranque
     esp_sleep_enable_ext0_wakeup((gpio_num_t)wakeupPin, LOW);   // Configurar la activación externa
     delay(1000); // Añadiendo un retraso de 1 segundo para evitar pulsaciones múltiples
+
+    configuracion_wifi();
     configuracion_interfaz();
     configuracion_pantalla();
     configuracion_oximetro();
@@ -97,6 +101,7 @@ void loop() {
         Serial.println(promedio_bpm);
         Serial.println(promedio_spo);
         menu_oximetro(promedio_bpm, promedio_spo);
+        wifi_oximetro(promedio_bpm, promedio_spo);
         calcular_bpm = 0;
         calcular_spo = 0;
         numero_bpm = 0;
@@ -111,6 +116,7 @@ void loop() {
     case 2:
         calcular_temperatura(&temp);
         menu_termometro(temp);
+        wifi_termometro(temp);
         Serial.println("Me voy a dormir ahora.");
         esp_deep_sleep_start();
         break;
@@ -161,6 +167,7 @@ void loop() {
             Serial.println("Estres Normal");
         }
         menu_estres(estres);
+        wifi_estres(estres);
         bpm = 0;
         bpm_inicial = 0;
         bpm_final = 0;
