@@ -1,39 +1,6 @@
 /*!
  * @file Adafruit_SSD1306.cpp
  *
- * @mainpage Arduino library for monochrome OLEDs based on SSD1306 drivers.
- *
- * @section intro_sec Introduction
- *
- * This is documentation for Adafruit's SSD1306 library for monochrome
- * OLED displays: http://www.adafruit.com/category/63_98
- *
- * These displays use I2C or SPI to communicate. I2C requires 2 pins
- * (SCL+SDA) and optionally a RESET pin. SPI requires 4 pins (MOSI, SCK,
- * select, data/command) and optionally a reset pin. Hardware SPI or
- * 'bitbang' software SPI are both supported.
- *
- * Adafruit invests time and resources providing this open source code,
- * please support Adafruit and open-source hardware by purchasing
- * products from Adafruit!
- *
- * @section dependencies Dependencies
- *
- * This library depends on <a
- * href="https://github.com/adafruit/Adafruit-GFX-Library"> Adafruit_GFX</a>
- * being present on your system. Please make sure you have installed the latest
- * version before using this library.
- *
- * @section author Author
- *
- * Written by Limor Fried/Ladyada for Adafruit Industries, with
- * contributions from the open source community.
- *
- * @section license License
- *
- * BSD license, all text above, and the splash screen included below,
- * must be included in any redistribution.
- *
  */
 
 #ifdef __AVR__
@@ -50,7 +17,7 @@
 #endif
 
 #include "Adafruit_SSD1306.h"
-#include "splash.h"
+// #include "splash.h"
 #include <Adafruit_GFX.h>
 
 // SOME DEFINES AND STATIC VARIABLES USED INTERNALLY -----------------------
@@ -488,16 +455,6 @@ bool Adafruit_SSD1306::begin(uint8_t vcs, uint8_t addr, bool reset, bool periphB
         return false;
 
     clearDisplay();
-
-#ifndef SSD1306_NO_SPLASH
-    if (HEIGHT > 32) {
-        drawBitmap((WIDTH - splash1_width) / 2, (HEIGHT - splash1_height) / 2, splash1_data,
-                   splash1_width, splash1_height, 1);
-    } else {
-        drawBitmap((WIDTH - splash2_width) / 2, (HEIGHT - splash2_height) / 2, splash2_data,
-                   splash2_width, splash2_height, 1);
-    }
-#endif
 
     vccstate = vcs;
 

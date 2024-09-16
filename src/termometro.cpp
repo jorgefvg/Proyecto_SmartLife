@@ -52,12 +52,13 @@ void configuracion_termometro() {
     // Serial.println("================================================");
 }
 
-void calcular_temperatura() {
+void calcular_temperatura(double * temp) {
 
     Serial.print("*C\tTemperatura = ");
     Serial.print(mlx.readObjectTempC() + calibracion);
     Serial.println("*C");
     Serial.println();
+    *temp = mlx.readObjectTempC() + calibracion;
     if ((mlx.readObjectTempC() + calibracion) > alarma) // si supera el valor definido como alarma
     {
         Serial.println("**** Alerta *****");

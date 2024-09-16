@@ -42,6 +42,9 @@ void configuracion_oximetro();
 /**
  * @brief Funcion para calcular el bpm y spo2
  *
+ * @param  bpm   Referencia del valor de ritmo cardiaco
+ * @param  spo   Referencia del valor de saturacion de oxigeno
+ *
  * @return void
  */
 void calcular_bpm_spo2(double * bpm, double * spo);

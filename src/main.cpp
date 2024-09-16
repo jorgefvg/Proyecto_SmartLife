@@ -17,13 +17,14 @@
 #include "interfaz.h"
 #include "oximetro.h"
 #include "termometro.h"
+#include "pantalla.h"
 #include <math.h>
 
 /* === Definicion y Macros ===================================================================== */
 
 /* == Declaraciones de tipos de datos internos ================================================= */
 int medicion = 0;
-int temp = 0;
+double temp = 0;
 double bpm = 0;
 double spo = 0;
 double bpm_inicial = 0;
@@ -60,119 +61,121 @@ void setup() {
     esp_sleep_enable_ext0_wakeup((gpio_num_t)wakeupPin, LOW);   // Configurar la activación externa
     delay(1000); // Añadiendo un retraso de 1 segundo para evitar pulsaciones múltiples
     configuracion_interfaz();
+    configuracion_pantalla();
     configuracion_oximetro();
     configuracion_termometro();
 }
 
 void loop() {
-
+    menu_principal();
     medicion = interfaz_usuario();
 
-    if (medicion == 1 || medicion == 2 || medicion == 3) {
-        delay(500);
-        while (1) {
-            medicion = interfaz_usuario();
-            switch (medicion) {
-            case 1:
-                for (int v = 0; v < 50; v++) {
-                    calcular_bpm_spo2(&bpm, &spo);
-                }
-                Serial.println("--");
+    // if (medicion == 1 || medicion == 2 || medicion == 3) {
+    // delay(500);
+    // while (1) {
+    // medicion = interfaz_usuario();
+    switch (medicion) {
+    case 1:
+        for (int v = 0; v < 50; v++) {
+            calcular_bpm_spo2(&bpm, &spo);
+        }
+        Serial.println("--");
 
-                for (int i = 0; i < 150; i++) {
-                    calcular_bpm_spo2(&bpm, &spo);
-                    if (bpm > 0) {
-                        calcular_bpm = calcular_bpm + bpm;
-                        numero_bpm++;
-                    }
-                    if (spo > 0) {
-                        calcular_spo = calcular_spo + spo;
-                        numero_spo++;
-                    }
-                }
-                promedio_bpm = calcular_bpm / numero_bpm;
-                promedio_spo = calcular_spo / numero_spo;
-                Serial.println(promedio_bpm);
-                Serial.println(promedio_spo);
-                calcular_bpm = 0;
-                calcular_spo = 0;
-                numero_bpm = 0;
-                numero_spo = 0;
-                promedio_bpm = 0;
-                promedio_spo = 0;
-                Serial.println("Me voy a dormir ahora."); // Imprime una declaración antes de entrar
-                                                          // en un sueño profundo
-                esp_deep_sleep_start(); // Entrar en modo de sueño profundo
-                break;
-
-            case 2:
-                for (int p = 0; p < 5; p++) {
-                    calcular_temperatura();
-                }
-                Serial.println("Me voy a dormir ahora.");
-                esp_deep_sleep_start();
-                break;
-
-            case 3:
-                for (int v = 0; v < 50; v++) {
-                    calcular_bpm_spo2(&bpm, &spo);
-                }
-                Serial.println("--");
-
-                for (int r = 0; r < 200; r++) {
-                    calcular_bpm_spo2(&bpm, &spo);
-                    if (bpm > 0) {
-                        calcular = calcular + bpm;
-                        numero++;
-                    }
-                }
-                promedio = calcular / numero;
-                Serial.println(promedio);
-                bpm_inicial = promedio;
-                calcular = 0;
-                numero = 0;
-                promedio = 0;
-
-                for (int q = 0; q < 200; q++) {
-                    calcular_bpm_spo2(&bpm, &spo);
-                    if (bpm > 0) {
-                        calcular = calcular + bpm;
-                        numero++;
-                    }
-                }
-
-                promedio = calcular / numero;
-                Serial.println(promedio);
-                bpm_final = promedio;
-                calcular = 0;
-                numero = 0;
-                promedio = 0;
-
-                calculo_estres = bpm_final - bpm_inicial;
-                estres = fabs(calculo_estres);
-                Serial.println(estres);
-                if (estres <= 2 && estres >= 0) {
-                    Serial.println("Estres alto");
-                } else if (estres <= 10 && estres >= 3) {
-                    Serial.println("Estres Moderado");
-                } else if (estres >= 11) {
-                    Serial.println("Estres Normal");
-                }
-                bpm = 0;
-                bpm_inicial = 0;
-                bpm_final = 0;
-                calculo_estres = 0;
-                estres = 0;
-
-                Serial.println("Me voy a dormir ahora.");
-                esp_deep_sleep_start();
-                break;
-
-            default:
-                break;
+        for (int i = 0; i < 150; i++) {
+            calcular_bpm_spo2(&bpm, &spo);
+            if (bpm > 0) {
+                calcular_bpm = calcular_bpm + bpm;
+                numero_bpm++;
+            }
+            if (spo > 0) {
+                calcular_spo = calcular_spo + spo;
+                numero_spo++;
             }
         }
+        promedio_bpm = calcular_bpm / numero_bpm;
+        promedio_spo = calcular_spo / numero_spo;
+        Serial.println(promedio_bpm);
+        Serial.println(promedio_spo);
+        menu_oximetro(promedio_bpm, promedio_spo);
+        calcular_bpm = 0;
+        calcular_spo = 0;
+        numero_bpm = 0;
+        numero_spo = 0;
+        promedio_bpm = 0;
+        promedio_spo = 0;
+        Serial.println("Me voy a dormir ahora."); // Imprime una declaración antes de entrar
+                                                  // en un sueño profundo
+        esp_deep_sleep_start();                   // Entrar en modo de sueño profundo
+        break;
+
+    case 2:
+        calcular_temperatura(&temp);
+        menu_termometro(temp);
+        Serial.println("Me voy a dormir ahora.");
+        esp_deep_sleep_start();
+        break;
+
+    case 3:
+        for (int v = 0; v < 50; v++) {
+            calcular_bpm_spo2(&bpm, &spo);
+        }
+        Serial.println("--");
+
+        for (int r = 0; r < 200; r++) {
+            calcular_bpm_spo2(&bpm, &spo);
+            if (bpm > 0) {
+                calcular = calcular + bpm;
+                numero++;
+            }
+        }
+        promedio = calcular / numero;
+        Serial.println(promedio);
+        bpm_inicial = promedio;
+        calcular = 0;
+        numero = 0;
+        promedio = 0;
+
+        for (int q = 0; q < 200; q++) {
+            calcular_bpm_spo2(&bpm, &spo);
+            if (bpm > 0) {
+                calcular = calcular + bpm;
+                numero++;
+            }
+        }
+
+        promedio = calcular / numero;
+        Serial.println(promedio);
+        bpm_final = promedio;
+        calcular = 0;
+        numero = 0;
+        promedio = 0;
+
+        calculo_estres = bpm_final - bpm_inicial;
+        estres = fabs(calculo_estres);
+        Serial.println(estres);
+        if (estres <= 2 && estres >= 0) {
+            Serial.println("Estres alto");
+        } else if (estres <= 10 && estres >= 3) {
+            Serial.println("Estres Moderado");
+        } else if (estres >= 11) {
+            Serial.println("Estres Normal");
+        }
+        menu_estres(estres);
+        bpm = 0;
+        bpm_inicial = 0;
+        bpm_final = 0;
+        calculo_estres = 0;
+        estres = 0;
+
+        Serial.println("Me voy a dormir ahora.");
+        esp_deep_sleep_start();
+        break;
+
+    default:
+        break;
     }
+    //}
+    //}
 }
 
 /* === Ciere de documentacion ================================================================== */

@@ -3,17 +3,17 @@
  ** ALL RIGHTS RESERVED, DON'T USE OR PUBLISH THIS FILE WITHOUT AUTORIZATION
  *************************************************************************************************/
 
-#ifndef TERMOMETRO_H /*! @cond    */
-#define TERMOMETRO_H /*! @endcond */
+#ifndef PANTALLA_H /*! @cond    */
+#define PANTALLA_H /*! @endcond */
 
-/** @file termometro.h
- ** @brief Declaracion de la funcion termometro para medir la temperatura corporal en °C
+/** @file pantalla.h
+ ** @brief Declaracion de la funcion interfaz de pantalla
  **
  **| REV | YYYY.MM.DD | Autor           | Descripción de los cambios                              |
  **|-----|------------|-----------------|---------------------------------------------------------|
- **|   1 | 2024.07.15 | Jorge Vasquez   | Version inicial del archivo                             |
+ **|   1 | 2024.07.31 | Jorge Vasquez   | Version inicial del archivo                             |
  **
- ** @addtogroup termometro
+ ** @addtogroup interfaz
  ** @{ */
 
 /* === Inclusiones de archivos externos ======================================================== */
@@ -33,19 +33,46 @@ extern "C" {
 /* === Declaraciones de funciones externas ===================================================== */
 
 /**
- * @brief Funcion de configuracion del termometro
+ * @brief Funcion de configuracion de interfaz de pantalla
  *
  * @return void
  */
-void configuracion_termometro();
+void configuracion_pantalla();
 
 /**
- * @brief Funcion para calcular la temperatura corporal
+ * @brief Funcion para manejo del menu principal
  *
- * @param  temp   Referencia del valor de temperatura
  * @return void
  */
-void calcular_temperatura(double * temp);
+void menu_principal();
+
+/**
+ * @brief Funcion para manejo de la edad del usuario
+ *
+ * @return void
+ */
+void menu_edad();
+
+/**
+ * @brief Funcion para manejo del menu de oximetro
+ *
+ * @return void
+ */
+void menu_oximetro(double bpm, double spo);
+
+/**
+ * @brief Funcion para manejo del menu del termometro
+ *
+ * @return void
+ */
+void menu_termometro(double temp);
+
+/**
+ * @brief Funcion para manejo del menu de estres
+ *
+ * @return void
+ */
+void menu_estres(int estres);
 
 /* === Ciere de documentacion ================================================================== */
 #ifdef __cplusplus
@@ -54,4 +81,4 @@ void calcular_temperatura(double * temp);
 
 /** @} Final de la definición del modulo para doxygen */
 
-#endif /* TERMOMETRO_H */
+#endif /* PANTALLA_H */
