@@ -80,6 +80,7 @@ void loop() {
     // medicion = interfaz_usuario();
     switch (medicion) {
     case 1:
+        oximetro_espera();
         for (int v = 0; v < 50; v++) {
             calcular_bpm_spo2(&bpm, &spo);
         }
@@ -114,6 +115,7 @@ void loop() {
         break;
 
     case 2:
+        termometro_espera();
         calcular_temperatura(&temp);
         menu_termometro(temp);
         wifi_termometro(temp);
@@ -122,6 +124,7 @@ void loop() {
         break;
 
     case 3:
+        estres_espera();
         for (int v = 0; v < 50; v++) {
             calcular_bpm_spo2(&bpm, &spo);
         }

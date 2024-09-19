@@ -53,6 +53,29 @@ void menu_principal();
  */
 void menu_edad();
 
+void menu_principal();
+
+/**
+ * @brief Funcion para manejo de la espera del oximetro
+ *
+ * @return void
+ */
+void oximetro_espera();
+
+/**
+ * @brief Funcion para manejo de la espera del termometro
+ *
+ * @return void
+ */
+void termometro_espera();
+
+/**
+ * @brief Funcion para manejo de la espera del nivel de estres
+ *
+ * @return void
+ */
+void estres_espera();
+
 /**
  * @brief Funcion para manejo del menu de oximetro
  *

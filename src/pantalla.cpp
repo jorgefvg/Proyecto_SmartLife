@@ -79,6 +79,57 @@ void menu_edad() {
     display.display();
 }
 
+void oximetro_espera() {
+    display.clearDisplay(); // Limpiar buffer (pantalla)
+
+    display.setCursor(2, 0); // Posición del texto
+    display.setTextSize(2);  // Tamaño del texto
+    display.print("Calculando");
+
+    display.setCursor(2, 28); // Posición del texto
+    display.setTextSize(2);   // Tamaño del texto
+    display.print("FC y Spo2");
+
+    display.setCursor(2, 48); // Posición del texto
+    display.setTextSize(2);   // Tamaño del texto
+    display.print("Espere...");
+    display.display();
+}
+
+void termometro_espera() {
+    display.clearDisplay(); // Limpiar buffer (pantalla)
+
+    display.setCursor(2, 0); // Posición del texto
+    display.setTextSize(2);  // Tamaño del texto
+    display.print("Calculando");
+
+    display.setCursor(2, 28); // Posición del texto
+    display.setTextSize(2);   // Tamaño del texto
+    display.print("Temp");
+
+    display.setCursor(2, 48); // Posición del texto
+    display.setTextSize(2);   // Tamaño del texto
+    display.print("Espere...");
+    display.display();
+}
+
+void estres_espera() {
+    display.clearDisplay(); // Limpiar buffer (pantalla)
+
+    display.setCursor(2, 0); // Posición del texto
+    display.setTextSize(2);  // Tamaño del texto
+    display.print("Calculando");
+
+    display.setCursor(2, 28); // Posición del texto
+    display.setTextSize(2);   // Tamaño del texto
+    display.print("Estres");
+
+    display.setCursor(2, 48); // Posición del texto
+    display.setTextSize(2);   // Tamaño del texto
+    display.print("Espere...");
+    display.display();
+}
+
 void menu_oximetro(double bpm, double spo) {
     frecuencia_cardiaca = (int)bpm;
     saturacion_oxigeno = (int)spo;
