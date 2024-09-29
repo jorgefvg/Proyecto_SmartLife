@@ -46,13 +46,6 @@ void configuracion_pantalla();
  */
 void menu_principal();
 
-/**
- * @brief Funcion para manejo de la edad del usuario
- *
- * @return void
- */
-void menu_edad();
-
 void menu_principal();
 
 /**
@@ -103,6 +96,29 @@ void menu_termometro(double temp);
  * @return void
  */
 void menu_estres(int estres);
+
+/**
+ * @brief Funcion para manejo del menu de error del oximetro
+ *
+ * @return void
+ */
+void menu_oximetro_error();
+
+/**
+ * @brief Funcion para manejo del menu de error del estres
+ *
+ * @return void
+ */
+void menu_estres_error();
+
+/**
+ * @brief Funcion para manejo del menu de error del termometro
+ *
+ * @param  temp   valor de temperatura
+ *
+ * @return void
+ */
+void menu_termometro_error(double temp);
 
 /* === Ciere de documentacion ================================================================== */
 #ifdef __cplusplus

@@ -41,6 +41,12 @@ double promedio_bpm = 0;
 int numero_spo = 0;
 double calcular_spo = 0;
 double promedio_spo = 0;
+const int max_bpm = 180;
+const int min_bpm = 30;
+const int max_spo = 100;
+const int min_spo = 70;
+const double max_temp = 42;
+const double min_temp = 32;
 
 const int wakeupPin = 25;        // GPIO 25 para activación externa
 RTC_DATA_ATTR int bootCount = 0; // Número de reinicios
@@ -74,56 +80,9 @@ void loop() {
     menu_principal();
     medicion = interfaz_usuario();
 
-    // if (medicion == 1 || medicion == 2 || medicion == 3) {
-    // delay(500);
-    // while (1) {
-    // medicion = interfaz_usuario();
     switch (medicion) {
+
     case 1:
-        oximetro_espera();
-        for (int v = 0; v < 50; v++) {
-            calcular_bpm_spo2(&bpm, &spo);
-        }
-        Serial.println("--");
-
-        for (int i = 0; i < 150; i++) {
-            calcular_bpm_spo2(&bpm, &spo);
-            if (bpm > 0) {
-                calcular_bpm = calcular_bpm + bpm;
-                numero_bpm++;
-            }
-            if (spo > 0) {
-                calcular_spo = calcular_spo + spo;
-                numero_spo++;
-            }
-        }
-        promedio_bpm = calcular_bpm / numero_bpm;
-        promedio_spo = calcular_spo / numero_spo;
-        Serial.println(promedio_bpm);
-        Serial.println(promedio_spo);
-        menu_oximetro(promedio_bpm, promedio_spo);
-        wifi_oximetro(promedio_bpm, promedio_spo);
-        calcular_bpm = 0;
-        calcular_spo = 0;
-        numero_bpm = 0;
-        numero_spo = 0;
-        promedio_bpm = 0;
-        promedio_spo = 0;
-        Serial.println("Me voy a dormir ahora."); // Imprime una declaración antes de entrar
-                                                  // en un sueño profundo
-        esp_deep_sleep_start();                   // Entrar en modo de sueño profundo
-        break;
-
-    case 2:
-        termometro_espera();
-        calcular_temperatura(&temp);
-        menu_termometro(temp);
-        wifi_termometro(temp);
-        Serial.println("Me voy a dormir ahora.");
-        esp_deep_sleep_start();
-        break;
-
-    case 3:
         estres_espera();
         for (int v = 0; v < 50; v++) {
             calcular_bpm_spo2(&bpm, &spo);
@@ -159,18 +118,23 @@ void loop() {
         numero = 0;
         promedio = 0;
 
-        calculo_estres = bpm_final - bpm_inicial;
-        estres = fabs(calculo_estres);
-        Serial.println(estres);
-        if (estres <= 2 && estres >= 0) {
-            Serial.println("Estres alto");
-        } else if (estres <= 10 && estres >= 3) {
-            Serial.println("Estres Moderado");
-        } else if (estres >= 11) {
-            Serial.println("Estres Normal");
+        if (bpm_inicial <= max_bpm && bpm_inicial >= min_bpm && bpm_final <= max_bpm &&
+            bpm_final >= min_bpm) {
+            calculo_estres = bpm_final - bpm_inicial;
+            estres = fabs(calculo_estres);
+            Serial.println(estres);
+            if (estres <= 2 && estres >= 0) {
+                Serial.println("Estres alto");
+            } else if (estres <= 10 && estres >= 3) {
+                Serial.println("Estres Moderado");
+            } else if (estres >= 11) {
+                Serial.println("Estres Normal");
+            }
+            menu_estres(estres);
+            wifi_estres(estres);
+        } else {
+            menu_estres_error();
         }
-        menu_estres(estres);
-        wifi_estres(estres);
         bpm = 0;
         bpm_inicial = 0;
         bpm_final = 0;
@@ -181,11 +145,63 @@ void loop() {
         esp_deep_sleep_start();
         break;
 
+    case 2:
+        termometro_espera();
+        calcular_temperatura(&temp);
+        if (temp <= max_temp && temp >= min_temp) {
+            menu_termometro(temp);
+            wifi_termometro(temp);
+        } else {
+            menu_termometro_error(temp);
+        }
+        Serial.println("Me voy a dormir ahora.");
+        esp_deep_sleep_start();
+        break;
+
+    case 3:
+        oximetro_espera();
+        for (int v = 0; v < 50; v++) {
+            calcular_bpm_spo2(&bpm, &spo);
+        }
+        Serial.println("--");
+
+        for (int i = 0; i < 150; i++) {
+            calcular_bpm_spo2(&bpm, &spo);
+            if (bpm > 0) {
+                calcular_bpm = calcular_bpm + bpm;
+                numero_bpm++;
+            }
+            if (spo > 0) {
+                calcular_spo = calcular_spo + spo;
+                numero_spo++;
+            }
+        }
+
+        promedio_bpm = calcular_bpm / numero_bpm;
+        promedio_spo = calcular_spo / numero_spo;
+        Serial.println(promedio_bpm);
+        Serial.println(promedio_spo);
+        if (promedio_bpm <= max_bpm && promedio_bpm >= min_bpm && promedio_spo <= max_spo &&
+            promedio_spo >= min_spo) {
+            menu_oximetro(promedio_bpm, promedio_spo);
+            wifi_oximetro(promedio_bpm, promedio_spo);
+        } else {
+            menu_oximetro_error();
+        }
+        calcular_bpm = 0;
+        calcular_spo = 0;
+        numero_bpm = 0;
+        numero_spo = 0;
+        promedio_bpm = 0;
+        promedio_spo = 0;
+        Serial.println("Me voy a dormir ahora."); // Imprime una declaración antes de entrar
+                                                  // en un sueño profundo
+        esp_deep_sleep_start();                   // Entrar en modo de sueño profundo
+        break;
+
     default:
         break;
     }
-    //}
-    //}
 }
 
 /* === Ciere de documentacion ================================================================== */

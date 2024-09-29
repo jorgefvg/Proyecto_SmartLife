@@ -25,7 +25,6 @@
 /* == Declaraciones de tipos de datos internos ================================================= */
 Adafruit_MLX90614 mlx = Adafruit_MLX90614();
 
-int alarma = 36;     //!< valor de temperatura de alarma
 int calibracion = 3; //!< factor de calibracion
 /* === Definiciones de variables internas ====================================================== */
 
@@ -59,13 +58,7 @@ void calcular_temperatura(double * temp) {
     Serial.println("*C");
     Serial.println();
     *temp = mlx.readObjectTempC() + calibracion;
-    if ((mlx.readObjectTempC() + calibracion) > alarma) // si supera el valor definido como alarma
-    {
-        Serial.println("**** Alerta *****");
-        delay(100);
-    } else {
-        Serial.println("...................");
-    }
+    Serial.println("...................");
     delay(1500);
 }
 

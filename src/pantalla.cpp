@@ -62,23 +62,6 @@ void menu_principal() {
     display.display();
 }
 
-void menu_edad() {
-    display.clearDisplay(); // Limpiar buffer (pantalla)
-
-    display.setCursor(2, 0); // Posición del texto
-    display.setTextSize(2);  // Tamaño del texto
-    display.print("1.Anciano");
-
-    display.setCursor(2, 28); // Posición del texto
-    display.setTextSize(2);   // Tamaño del texto
-    display.print("2.Adulto");
-
-    display.setCursor(2, 48); // Posición del texto
-    display.setTextSize(2);   // Tamaño del texto
-    display.print("3.Menor");
-    display.display();
-}
-
 void oximetro_espera() {
     display.clearDisplay(); // Limpiar buffer (pantalla)
 
@@ -212,6 +195,73 @@ void menu_estres(int estres) {
         display.println("Normal");
         display.display();
     }
+}
+
+void menu_oximetro_error() {
+
+    display.clearDisplay(); // Limpiar buffer (pantalla)
+    display.setTextSize(1);
+    display.setTextColor(WHITE);
+    display.setCursor(45, 2);
+    display.setRotation(3);
+    display.println("FC");
+    display.setRotation(0);
+    display.setTextSize(3);
+    display.setCursor(20, 5);
+    display.println("---");
+    display.setCursor(88, 5);
+    display.setTextSize(2);
+    display.print("bpm");
+
+    display.setTextSize(1);
+    display.setTextColor(WHITE);
+    display.setRotation(3);
+    display.setCursor(5, 2);
+    display.println("spo2");
+    display.setTextSize(3);
+    display.setRotation(0);
+    display.setCursor(20, 35);
+    display.println("---");
+    display.setCursor(112, 35);
+    display.setTextSize(2);
+    display.print("%");
+    display.display();
+}
+
+void menu_estres_error() {
+    display.clearDisplay(); // Limpiar buffer (pantalla)
+    display.setRotation(0);
+    display.setTextSize(2);
+    display.setCursor(5, 5);
+    display.println("Estres");
+    display.setTextSize(2);
+    display.setRotation(0);
+    display.setCursor(5, 35);
+    display.println("---");
+    display.display();
+}
+
+void menu_termometro_error(double temp) {
+    temperatura_corporal = (int)temp;
+
+    display.clearDisplay(); // Limpiar buffer (pantalla)
+    display.setTextSize(1);
+    display.setTextColor(WHITE);
+    display.setCursor(36, 2);
+    display.setRotation(3);
+    display.println("temp");
+    display.setRotation(0);
+    display.setTextSize(3);
+    display.setCursor(20, 5);
+    if (temperatura_corporal < 32) {
+        display.println("LO");
+    } else if (temperatura_corporal > 42) {
+        display.println("HI");
+    }
+    display.setCursor(88, 5);
+    display.setTextSize(2);
+    display.print("*C");
+    display.display();
 }
 /* === Ciere de documentacion ================================================================== */
 
